@@ -33,11 +33,11 @@ The **myFlix Client** is a single-page application (SPA) built with React that s
 
 ## Project Structure
 
-/src: Contains all the source code for the application.
-/components: Reusable UI components.
-/views: Different views/screens of the application.
-/services: API calls and other utility functions.
-/assets: Images, fonts, and other static assets.
+/src: Contains all the source code for the application. <br>
+/components: Reusable UI components. <br>
+/views: Different views/screens of the application. <br>
+/services: API calls and other utility functions. <br>
+/assets: Images, fonts, and other static assets. <br>
 
 ## Contributing
 
