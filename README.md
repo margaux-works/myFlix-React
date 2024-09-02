@@ -1,4 +1,4 @@
-# myFlix API
+# myFlix Client
 
 The **myFlix Client** is a single-page application (SPA) built with React that serves as the front-end interface for the myFlix movie app. It allows users to browse a comprehensive database of movies, view detailed information about each film, and manage their personal profiles and favorite movie lists. The myFlix Client interacts with the existing movie-API to provide a seamless user experience.
 
