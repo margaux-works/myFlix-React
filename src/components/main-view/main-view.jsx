@@ -15,8 +15,8 @@ export const MainView = () => {
           id: movie._id,
           title: movie.Title,
           image: movie.ImagePath,
-          director: movie.Directors?.[0]?.name || 'Unknown Director',
-          genre: movie.Genre?.name || 'Unknown Genre',
+          director: movie.Director || 'Unknown Director',
+          genre: movie.Genre || 'Unknown Genre',
           description: movie.Description,
           actors: movie.Actors || [],
         }));
@@ -28,11 +28,37 @@ export const MainView = () => {
   }, []);
 
   if (selectedMovie) {
+    let similarMovies = movies.filter(
+      (movie) =>
+        movie.genre === selectedMovie.genre && movie.id !== selectedMovie.id
+    );
+    console.log('Selected Movie Genre:', selectedMovie.genre);
+    console.log('Similar Movie Genre:', movies.genre);
+
     return (
-      <MovieView
-        movie={selectedMovie}
-        onBackClick={() => setSelectedMovie(null)}
-      />
+      <div>
+        <MovieView
+          movie={selectedMovie}
+          onBackClick={() => setSelectedMovie(null)}
+        />
+        <hr />
+        <h2>Similar movies</h2>
+        <div>
+          {similarMovies.length > 0 ? (
+            similarMovies.map((movie) => (
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                onMovieClick={(newSelectedMovie) => {
+                  setSelectedMovie(newSelectedMovie);
+                }}
+              />
+            ))
+          ) : (
+            <p>No similar movie found.</p>
+          )}
+        </div>
+      </div>
     );
   }
 
