@@ -30,8 +30,7 @@ export const MainView = () => {
   if (selectedMovie) {
     let similarMovies = movies.filter(
       (movie) =>
-        movie.genre.name === selectedMovie.genre.name &&
-        movie.id !== selectedMovie.id
+        movie.genre === selectedMovie.genre && movie.id !== selectedMovie.id
     );
     console.log('Selected Movie Genre:', selectedMovie.genre);
     console.log('Similar Movie Genre:', movies.genre);
