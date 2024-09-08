@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 
 export const MovieView = ({ movie, onBackClick }) => {
+  console.log(movie.director);
+  console.log(movie.genre);
   return (
     <div>
       <div>
@@ -12,15 +14,7 @@ export const MovieView = ({ movie, onBackClick }) => {
       </div>
       <div>
         <span>Director: </span>
-        <div>
-          <span>{movie.director.name}</span>
-          <br />
-          <span>{movie.director.bio}</span>
-          <br />
-          <span>
-            {movie.director.birth} - {movie.director.death || 'Present'}
-          </span>
-        </div>
+        <span>{movie.director.Name}</span>
       </div>
       <div>
         <span>Description: </span>
@@ -28,11 +22,7 @@ export const MovieView = ({ movie, onBackClick }) => {
       </div>
       <div>
         <span>Genre: </span>
-        <div>
-          <span>{movie.genre.name}</span>
-          <br />
-          <span>{movie.genre.description}</span>
-        </div>
+        <span>{movie.genre.Name}</span>
       </div>
       <div>
         <span>Actors: </span>
