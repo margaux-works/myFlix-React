@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Button } from 'react-bootstrap';
 
 export const MovieView = ({ movie, onBackClick }) => {
   console.log(movie.director);
@@ -6,33 +7,35 @@ export const MovieView = ({ movie, onBackClick }) => {
   return (
     <div>
       <div>
-        <img src={movie.image} />
+        <img src={movie.image} className="fluid" />
       </div>
       <div>
-        <span>Title: </span>
+        <span style={{ fontWeight: '500' }}>Title: </span>
         <span>{movie.title}</span>
       </div>
       <div>
-        <span>Director: </span>
+        <span style={{ fontWeight: '500' }}>Director: </span>
         <span>{movie.director.Name}</span>
       </div>
       <div>
-        <span>Description: </span>
+        <span style={{ fontWeight: '500' }}>Description: </span>
         <span>{movie.description}</span>
       </div>
       <div>
-        <span>Genre: </span>
+        <span style={{ fontWeight: '500' }}>Genre: </span>
         <span>{movie.genre.Name}</span>
       </div>
       <div>
-        <span>Actors: </span>
+        <span style={{ fontWeight: '500' }}>Actors: </span>
         <ul>
           {movie.actors.map((actor, index) => (
             <li key={index}>{actor}</li>
           ))}
         </ul>
       </div>
-      <button onClick={onBackClick}>Back</button>
+      <Button onClick={onBackClick} variant="primary">
+        Back
+      </Button>
     </div>
   );
 };
