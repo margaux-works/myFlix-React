@@ -7,7 +7,7 @@ export const MovieCard = ({ movie, onMovieClick }) => {
       className="h-100"
       style={{
         width: '14rem',
-        border: '1px solid white',
+
         backgroundColor: '#161D2F',
       }}
     >

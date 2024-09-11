@@ -6,12 +6,11 @@ export const MovieView = ({ movie, onBackClick }) => {
   console.log(movie.genre);
   return (
     <div>
+      <h1>
+        <span>{movie.title}</span>
+      </h1>
       <div>
         <img src={movie.image} className="fluid" />
-      </div>
-      <div>
-        <span style={{ fontWeight: '500' }}>Title: </span>
-        <span>{movie.title}</span>
       </div>
       <div>
         <span style={{ fontWeight: '500' }}>Director: </span>
