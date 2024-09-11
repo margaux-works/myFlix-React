@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
 
 export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState('');
@@ -13,16 +14,13 @@ export const LoginView = ({ onLoggedIn }) => {
       Password: password,
     };
 
-    fetch(
-      'https://movies-app2024-74d588eb4f3d.herokuapp.com/login?Username=${username}&Password=${password}`',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      }
-    )
+    fetch('https://movies-app2024-74d588eb4f3d.herokuapp.com/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log('Login response: ', data);
@@ -40,28 +38,32 @@ export const LoginView = ({ onLoggedIn }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Username:
-        <input
+    <Form onSubmit={handleSubmit}>
+      <h2>Login</h2>
+      <Form.Group controlId="formUsername">
+        <Form.Label>Username:</Form.Label>
+        <Form.Control
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
           minLength="6"
         />
-      </label>
-      <label>
-        Password:
-        <input
+      </Form.Group>
+      <Form.Group controlId="formPassword" className="mt-4">
+        <Form.Label>Password:</Form.Label>
+        <Form.Control
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
           minLength="8"
         />
-      </label>
-      <button type="submit">Submit</button>
-    </form>
+      </Form.Group>
+
+      <Button variant="primary" type="submit" className="mt-4">
+        Login to your account
+      </Button>
+    </Form>
   );
 };
