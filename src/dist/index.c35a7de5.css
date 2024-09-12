@@ -13194,8 +13194,35 @@ textarea.form-control-lg {
   margin: 2rem auto;
 }
 
+.container {
+  padding: 0;
+}
+
 body, h1, .h1, h2, .h2 {
   font-family: Outfit, sans-serif;
   font-weight: 300;
+}
+
+.navbar {
+  background-color: #161d2f;
+  padding: 1rem;
+}
+
+.navbar-brand {
+  color: #fff;
+  --bs-navbar-active-color: red;
+  font-weight: 500;
+}
+
+.navbar-brand:hover, .nav-link:hover {
+  color: #fc4747;
+}
+
+.nav-link {
+  color: #fff;
+}
+
+.login-form, .signup-form {
+  padding: 1rem;
 }
 /*# sourceMappingURL=index.c35a7de5.css.map */

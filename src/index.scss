@@ -12,9 +12,38 @@ $link-color: $primary;
   width: 100%;
 }
 
+.container {
+  padding: 0;
+}
+
 body,
 h1,
 h2 {
   font-family: 'Outfit', sans-serif;
   font-weight: 300;
+}
+
+.navbar {
+  background-color: $body-secondary-color-bg;
+  padding: 1rem;
+}
+
+.navbar-brand {
+  color: $body-color;
+  font-weight: 500;
+  --bs-navbar-active-color: red;
+}
+
+.navbar-brand:hover,
+.nav-link:hover {
+  color: $primary;
+}
+
+.nav-link {
+  color: $body-color;
+}
+
+.login-form,
+.signup-form {
+  padding: 1rem;
 }
