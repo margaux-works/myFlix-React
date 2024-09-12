@@ -3,6 +3,10 @@ import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { LoginView } from '../login-view/login-view';
 import { SignupView } from '../signup-view/signup-view';
+import { Logo } from '../logo';
+import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -41,16 +45,32 @@ export const MainView = () => {
 
   if (!user) {
     return (
-      <>
-        <LoginView
-          onLoggedIn={(user, token) => {
-            setUser(user);
-            setToken(token);
-          }}
-        />
-        or
-        <SignupView />
-      </>
+      <Row
+        className="justify-content-md-center custom-container"
+        style={{
+          backgroundColor: '#161D2F',
+          borderRadius: '20px',
+        }}
+      >
+        <Col md={12} className="text-center my-3">
+          <Logo position="center" />
+          <h1 className="mt-4">MyFlix DB</h1>
+        </Col>
+        <Col md={8}>
+          <LoginView
+            onLoggedIn={(user, token) => {
+              setUser(user);
+              setToken(token);
+            }}
+          />
+        </Col>
+        <Col md={12} className="text-center my-3">
+          <span>or</span>
+        </Col>
+        <Col md={8}>
+          <SignupView />
+        </Col>
+      </Row>
     );
   }
 
@@ -64,28 +84,39 @@ export const MainView = () => {
     console.log('Similar Movie:', similarMovies);
 
     return (
-      <div>
-        <MovieView
-          movie={selectedMovie}
-          onBackClick={() => setSelectedMovie(null)}
-        />
-        <hr />
-        <h2>Similar movies</h2>
-        <div>
-          {similarMovies.length > 0 ? (
-            similarMovies.map((movie) => (
-              <MovieCard
-                key={movie.id}
-                movie={movie}
-                onMovieClick={(newSelectedMovie) => {
-                  setSelectedMovie(newSelectedMovie);
-                }}
+      <div className="movie-view-container">
+        <Logo position="left" />
+
+        <Row className="justify-content-md-center">
+          <Col md={8}>
+            <div>
+              <MovieView
+                movie={selectedMovie}
+                onBackClick={() => setSelectedMovie(null)}
               />
-            ))
-          ) : (
-            <p>No similar movie found.</p>
-          )}
-        </div>
+              <hr />
+              <h2>Similar movies</h2>
+              <div>
+                <Row>
+                  {similarMovies.length > 0 ? (
+                    similarMovies.map((movie) => (
+                      <Col key={movie.id} md={4} className="mb-4">
+                        <MovieCard
+                          movie={movie}
+                          onMovieClick={(newSelectedMovie) => {
+                            setSelectedMovie(newSelectedMovie);
+                          }}
+                        />
+                      </Col>
+                    ))
+                  ) : (
+                    <p>No similar movie found.</p>
+                  )}
+                </Row>
+              </div>
+            </div>
+          </Col>
+        </Row>
       </div>
     );
   }
@@ -94,18 +125,21 @@ export const MainView = () => {
     return <div>The list is empty!</div>;
   }
   return (
-    <>
-      <div>
-        {movies.map((movie) => (
+    <Row className="justify-content-md-center">
+      <Col md={12}>
+        <Logo position="left" /> {/* Logo at the top left */}
+      </Col>
+      {movies.map((movie) => (
+        <Col className="mb-4" key={movie.id} md={3}>
           <MovieCard
-            key={movie.id}
             movie={movie}
             onMovieClick={(newSelectedMovie) => {
               setSelectedMovie(newSelectedMovie);
             }}
           />
-        ))}
-      </div>
+        </Col>
+      ))}
+
       <button
         onClick={() => {
           setUser(null);
@@ -115,7 +149,7 @@ export const MainView = () => {
       >
         Logout
       </button>
-    </>
+    </Row>
   );
 };
 
