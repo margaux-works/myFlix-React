@@ -1,5 +1,21 @@
-$color: steelblue;
+$primary: #fc4747;
+$body-bg: #10141e;
+$body-secondary-color-bg: #161d2f;
+$body-color: #ffffff;
+$link-color: $primary;
 
-.my-flix {
-  color: $color;
+@import '~bootstrap/scss/bootstrap.scss';
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500&display=swap');
+
+.custom-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  width: 100%;
+}
+
+body,
+h1,
+h2 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
 }
