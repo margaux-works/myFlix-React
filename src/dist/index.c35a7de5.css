@@ -13210,7 +13210,6 @@ body, h1, .h1, h2, .h2 {
 
 .navbar-brand {
   color: #fff;
-  --bs-navbar-active-color: red;
   font-weight: 500;
 }
 
