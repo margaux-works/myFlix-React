@@ -1,8 +1,9 @@
 // src/components/profile-view/favorite-movies.jsx
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
+import { MovieCard } from '../movie-card/movie-card';
 
-export const FavoriteMovies = ({ movies, token }) => {
+export const FavoriteMovies = ({ movies, token, user, onRemoveFavorite }) => {
   const removeFavorite = (movieId) => {
     fetch(
       `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}/movies/${movieId}`,
@@ -13,6 +14,7 @@ export const FavoriteMovies = ({ movies, token }) => {
     )
       .then(() => {
         alert('Movie removed from favorites');
+        onRemoveFavorite(movieId);
       })
       .catch((error) => console.error('Error removing favorite:', error));
   };
@@ -23,14 +25,20 @@ export const FavoriteMovies = ({ movies, token }) => {
       {movies.length === 0 ? (
         <p>No favorite movies added yet.</p>
       ) : (
-        <ul>
+        <Row>
           {movies.map((movie) => (
-            <li key={movie.id}>
-              {movie.Title}
-              <Button onClick={() => removeFavorite(movie.id)}>Remove</Button>
-            </li>
+            <Col md={4} key={movie.id} className="mb-4">
+              <MovieCard movie={movie} />
+              <Button
+                variant="danger"
+                onClick={() => removeFavorite(movie.id)}
+                className="mt-2"
+              >
+                Remove
+              </Button>
+            </Col>
           ))}
-        </ul>
+        </Row>
       )}
     </div>
   );

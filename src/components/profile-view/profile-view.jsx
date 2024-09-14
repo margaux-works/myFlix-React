@@ -11,7 +11,7 @@ export const ProfileView = ({ user, token, onUserUpdate }) => {
   const [userData, setUserData] = useState(user);
 
   useEffect(() => {
-    // Fetch favorite movies from the backend using the user data
+    // Fetch the user's favorite movie IDs
     fetch(
       `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}`,
       {
@@ -20,7 +20,32 @@ export const ProfileView = ({ user, token, onUserUpdate }) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        setFavoriteMovies(data.FavoriteMovies);
+        const favoriteMovieIds = data.FavoriteMovies;
+
+        // Fetch the full movie details for each favorite movie ID
+        const moviePromises = favoriteMovieIds.map((movieId) =>
+          fetch(
+            `https://movies-app2024-74d588eb4f3d.herokuapp.com/${movieId}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          ).then((res) => res.json())
+        );
+
+        Promise.all(moviePromises).then((movies) => {
+          const favoriteMoviesFromApi = movies
+            .filter((movie) => movie !== null) // Ensure movie is not null
+            .map((movie) => ({
+              id: movie._id, // Map _id to id
+              title: movie.Title,
+              image: movie.ImagePath,
+              director: movie.Director,
+              genre: movie.Genre,
+              description: movie.Description,
+              actors: movie.Actors || [],
+            }));
+          setFavoriteMovies(favoriteMoviesFromApi);
+        });
       })
       .catch((error) =>
         console.error('Error fetching favorite movies:', error)
@@ -30,6 +55,10 @@ export const ProfileView = ({ user, token, onUserUpdate }) => {
   const handleUserUpdate = (updatedUser) => {
     setUserData(updatedUser);
     onUserUpdate(updatedUser);
+  };
+
+  const handleRemoveFavorite = (movieId) => {
+    setFavoriteMovies(favoriteMovies.filter((movie) => movie.id !== movieId));
   };
 
   return (
@@ -42,7 +71,12 @@ export const ProfileView = ({ user, token, onUserUpdate }) => {
           token={token}
           onUserUpdate={handleUserUpdate}
         />
-        <FavoriteMovies movies={favoriteMovies} token={token} />
+        <FavoriteMovies
+          movies={favoriteMovies}
+          token={token}
+          user={userData}
+          onRemoveFavorite={handleRemoveFavorite}
+        />
         <DeleteProfile user={userData} token={token} />
       </Col>
     </Row>

@@ -45,6 +45,15 @@ export const MainView = () => {
       });
   }, [token]);
 
+  // Handle favorite change from MovieCard
+  const handleFavoriteChange = (movieId, isFavorite) => {
+    setMovies(
+      movies.map((movie) =>
+        movie.id === movieId ? { ...movie, isFavorite } : movie
+      )
+    );
+  };
+
   // Logic to filter similar movies
   const getSimilarMovies = (movie) => {
     return movies.filter(
@@ -132,7 +141,14 @@ export const MainView = () => {
                 <>
                   {movies.map((movie) => (
                     <Col className="mb-4" key={movie.id} md={3}>
-                      <MovieCard movie={movie} />
+                      <MovieCard
+                        movie={movie}
+                        user={user}
+                        token={token}
+                        onFavoriteChange={(isFavorite) =>
+                          handleFavoriteChange(movie.id, isFavorite)
+                        }
+                      />
                     </Col>
                   ))}
                 </>

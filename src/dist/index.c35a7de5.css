@@ -13224,4 +13224,10 @@ body, h1, .h1, h2, .h2 {
 .login-form, .signup-form {
   padding: 1rem;
 }
+
+.favorite-icon {
+  cursor: pointer;
+  font-size: .9rem;
+  transition: color .3s;
+}
 /*# sourceMappingURL=index.c35a7de5.css.map */
