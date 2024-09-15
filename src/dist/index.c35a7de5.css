@@ -13230,4 +13230,48 @@ body, h1, .h1, h2, .h2 {
   font-size: .9rem;
   transition: color .3s;
 }
+
+.favorite-button-wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.favorite-btn {
+  z-index: 1;
+  position: relative;
+}
+
+.favorite-tooltip {
+  opacity: .7;
+  color: #fff;
+  white-space: nowrap;
+  visibility: hidden;
+  z-index: 2;
+  background-color: #fc4747;
+  border-radius: 4px;
+  padding: .5rem;
+  font-size: .8rem;
+  transition: opacity .3s, visibility .3s;
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.favorite-tooltip:after {
+  content: "";
+  opacity: .7;
+  z-index: 1;
+  border: 6px solid #0000;
+  border-top-color: #fc4747;
+  position: absolute;
+  bottom: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.favorite-button-wrapper:hover .favorite-tooltip {
+  opacity: .7;
+  visibility: visible;
+}
 /*# sourceMappingURL=index.c35a7de5.css.map */

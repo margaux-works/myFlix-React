@@ -9,6 +9,7 @@ import { Logo } from '../logo';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { FavoriteMovies } from '../profile-view/favorite-movie';
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -45,13 +46,34 @@ export const MainView = () => {
       });
   }, [token]);
 
-  // Handle favorite change from MovieCard
   const handleFavoriteChange = (movieId, isFavorite) => {
-    setMovies(
-      movies.map((movie) =>
-        movie.id === movieId ? { ...movie, isFavorite } : movie
-      )
-    );
+    const method = isFavorite ? 'PUT' : 'DELETE'; // Use PUT for adding, DELETE for removing
+    const url = `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}/movies/${movieId}`;
+
+    fetch(url, {
+      method: method,
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const updatedFavorites = isFavorite
+          ? [...user.FavoriteMovies, movieId] // Add to favorites
+          : user.FavoriteMovies.filter((id) => id !== movieId); // Remove from favorites
+
+        // Update user with the new favorites list
+        const updatedUser = { ...user, FavoriteMovies: updatedFavorites };
+        setUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+
+        // Update the movies state to reflect the favorite status
+        setMovies(
+          movies.map((movie) =>
+            movie.id === movieId ? { ...movie, isFavorite } : movie
+          )
+        );
+      })
+      .catch((error) => console.error('Error updating favorite movie:', error));
   };
 
   // Logic to filter similar movies
@@ -145,6 +167,7 @@ export const MainView = () => {
                         movie={movie}
                         user={user}
                         token={token}
+                        isFavorite={user.FavoriteMovies.includes(movie.id)}
                         onFavoriteChange={(isFavorite) =>
                           handleFavoriteChange(movie.id, isFavorite)
                         }

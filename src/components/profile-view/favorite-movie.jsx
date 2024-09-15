@@ -1,4 +1,3 @@
-// src/components/profile-view/favorite-movies.jsx
 import React from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 import { MovieCard } from '../movie-card/movie-card';
@@ -28,7 +27,13 @@ export const FavoriteMovies = ({ movies, token, user, onRemoveFavorite }) => {
         <Row>
           {movies.map((movie) => (
             <Col md={4} key={movie.id} className="mb-4">
-              <MovieCard movie={movie} />
+              <MovieCard
+                movie={movie}
+                user={user}
+                token={token}
+                isFavorite={true}
+                onFavoriteChange={() => onRemoveFavorite(movie.id)}
+              />
               <Button
                 variant="danger"
                 onClick={() => removeFavorite(movie.id)}

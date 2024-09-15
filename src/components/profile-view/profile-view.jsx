@@ -11,7 +11,6 @@ export const ProfileView = ({ user, token, onUserUpdate }) => {
   const [userData, setUserData] = useState(user);
 
   useEffect(() => {
-    // Fetch the user's favorite movie IDs
     fetch(
       `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}`,
       {
@@ -22,10 +21,10 @@ export const ProfileView = ({ user, token, onUserUpdate }) => {
       .then((data) => {
         const favoriteMovieIds = data.FavoriteMovies;
 
-        // Fetch the full movie details for each favorite movie ID
+        // Fetch full movie details for each favorite movie ID
         const moviePromises = favoriteMovieIds.map((movieId) =>
           fetch(
-            `https://movies-app2024-74d588eb4f3d.herokuapp.com/${movieId}`,
+            `https://movies-app2024-74d588eb4f3d.herokuapp.com/movies/${movieId}`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -34,15 +33,14 @@ export const ProfileView = ({ user, token, onUserUpdate }) => {
 
         Promise.all(moviePromises).then((movies) => {
           const favoriteMoviesFromApi = movies
-            .filter((movie) => movie !== null) // Ensure movie is not null
+            .filter((movie) => movie !== null) // Ensure valid movie data
             .map((movie) => ({
-              id: movie._id, // Map _id to id
+              id: movie._id,
               title: movie.Title,
               image: movie.ImagePath,
               director: movie.Director,
               genre: movie.Genre,
               description: movie.Description,
-              actors: movie.Actors || [],
             }));
           setFavoriteMovies(favoriteMoviesFromApi);
         });

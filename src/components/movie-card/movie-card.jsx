@@ -3,30 +3,36 @@ import { Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-export const MovieCard = ({ movie, user, token, onFavoriteChange }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+export const MovieCard = ({
+  movie,
+  user,
+  token,
+  onFavoriteChange,
+  isFavorite: initialFavorite,
+}) => {
+  const [isFavorite, setIsFavorite] = useState(initialFavorite);
 
-  // check if movie is already a favorite
+  // Update favorite state based on user.FavoriteMovies
   useEffect(() => {
-    if (user && user.FavoriteMovies.includes(movie.id)) {
-      setIsFavorite(true);
-    }
+    setIsFavorite(user?.FavoriteMovies?.includes(movie.id) || false);
   }, [user, movie.id]);
 
   const handleFavoriteToggle = () => {
     const url = `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}/movies/${movie.id}`;
-    const method = isFavorite ? 'DELETE' : 'PUT';
+    const method = isFavorite ? 'DELETE' : 'PUT'; // Use PUT to add to favorites, DELETE to remove
 
     fetch(url, {
       method,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => {
         if (!response.ok) throw new Error('Network response was not ok');
+
+        // Update parent component with the new favorite status
+        onFavoriteChange(movie.id, !isFavorite);
+
+        // Update local state
         setIsFavorite(!isFavorite);
-        onFavoriteChange(!isFavorite);
       })
       .catch((error) => console.error('Error updating favorite movie:', error));
   };
@@ -40,36 +46,45 @@ export const MovieCard = ({ movie, user, token, onFavoriteChange }) => {
       }}
     >
       <Card.Img variant="top" src={movie.image} />
-      <Button
-        variant="primary"
-        className="position-absolute top-0 end-0 m-2"
-        onClick={handleFavoriteToggle}
-        title={isFavorite ? 'Remove from my list' : 'Add to my list'}
-        style={{
-          width: '32px',
-          height: '32px',
-          flexShrink: '0',
-          backgroundColor: '#fc4747  ',
-          opacity: '0.7',
-          border: 'none',
-          borderRadius: '32px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        {isFavorite ? (
-          <i
-            className="bi bi-check-circle favorite-icon"
-            style={{ color: '#ffffff' }}
-          ></i>
-        ) : (
-          <i
-            className="bi bi-plus-circle favorite-icon"
-            style={{ color: '#ffffff' }}
-          ></i>
-        )}
-      </Button>
+
+      {/* Favorite button wrapper and tooltip */}
+      <div className="favorite-button-wrapper position-absolute top-0 end-0 m-2">
+        {/* Favorite button */}
+        <Button
+          variant="primary"
+          className="favorite-btn"
+          onClick={handleFavoriteToggle}
+          style={{
+            width: '32px',
+            height: '32px',
+            backgroundColor: '#fc4747',
+            opacity: '0.7',
+            border: 'none',
+            borderRadius: '32px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          {isFavorite ? (
+            <i
+              className="bi bi-check-circle favorite-icon"
+              style={{ color: '#ffffff' }}
+            ></i>
+          ) : (
+            <i
+              className="bi bi-plus-circle favorite-icon"
+              style={{ color: '#ffffff' }}
+            ></i>
+          )}
+        </Button>
+
+        {/* Tooltip */}
+        <div className="favorite-tooltip">
+          {isFavorite ? 'Remove from my list' : 'Add to my list'}
+        </div>
+      </div>
+
       <Card.Body>
         <Card.Title>{movie.title}</Card.Title>
         <Card.Text>
@@ -98,4 +113,5 @@ MovieCard.propTypes = {
   }),
   token: PropTypes.string.isRequired,
   onFavoriteChange: PropTypes.func.isRequired,
+  isFavorite: PropTypes.bool.isRequired,
 };
