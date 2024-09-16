@@ -47,7 +47,7 @@ export const MainView = () => {
   }, [token]);
 
   const handleFavoriteChange = (movieId, isFavorite) => {
-    const method = isFavorite ? 'PUT' : 'DELETE'; // PUT for adding, DELETE for removing
+    const method = isFavorite ? 'PUT' : 'DELETE';
     const url = `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}/movies/${movieId}`;
 
     fetch(url, {

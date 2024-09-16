@@ -32,6 +32,7 @@ export const ProfileView = ({ user, token, onUserUpdate }) => {
         );
 
         Promise.all(moviePromises).then((movies) => {
+          //ensure all requests finish before updating state with favorite movies
           const favoriteMoviesFromApi = movies
             .filter((movie) => movie !== null)
             .map((movie) => ({

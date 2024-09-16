@@ -13,7 +13,7 @@ export const FavoriteMovies = ({ movies, token, user, onRemoveFavorite }) => {
     )
       .then(() => {
         alert('Movie removed from favorites');
-        onRemoveFavorite(movieId);
+        onRemoveFavorite(movieId); // removes movie from local list (passed from ProfileView)
       })
       .catch((error) => console.error('Error removing favorite:', error));
   };
@@ -26,7 +26,7 @@ export const FavoriteMovies = ({ movies, token, user, onRemoveFavorite }) => {
       ) : (
         <Row>
           {movies.map((movie) => (
-            <Col md={4} key={movie.id} className="mb-4">
+            <Col md={6} key={movie.id} className="mb-4">
               <MovieCard
                 movie={movie}
                 user={user}

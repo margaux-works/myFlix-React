@@ -27,7 +27,7 @@ export const DeleteProfile = ({ user, token }) => {
 
   return (
     <div>
-      <h4>Delete Account</h4>
+      <h4 className="delete-profile">Delete Account</h4>
       <Button variant="secondary" onClick={handleDelete}>
         Delete Profile
       </Button>

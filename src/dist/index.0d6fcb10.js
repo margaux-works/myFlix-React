@@ -42795,6 +42795,7 @@ const ProfileView = ({ user, token, onUserUpdate })=>{
                     }
                 }).then((res)=>res.json()));
             Promise.all(moviePromises).then((movies)=>{
+                //ensure all requests finish before updating state with favorite movies
                 const favoriteMoviesFromApi = movies.filter((movie)=>movie !== null).map((movie)=>({
                         id: movie._id,
                         title: movie.Title,
@@ -42826,14 +42827,14 @@ const ProfileView = ({ user, token, onUserUpdate })=>{
                     children: "My Profile"
                 }, void 0, false, {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 65,
+                    lineNumber: 66,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _userData.UserData), {
                     user: userData
                 }, void 0, false, {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 66,
+                    lineNumber: 67,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _editUserForm.EditUserForm), {
@@ -42842,7 +42843,7 @@ const ProfileView = ({ user, token, onUserUpdate })=>{
                     onUserUpdate: handleUserUpdate
                 }, void 0, false, {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 67,
+                    lineNumber: 68,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _favoriteMovie.FavoriteMovies), {
@@ -42852,7 +42853,7 @@ const ProfileView = ({ user, token, onUserUpdate })=>{
                     onRemoveFavorite: handleRemoveFavorite
                 }, void 0, false, {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 72,
+                    lineNumber: 73,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _deleteProfile.DeleteProfile), {
@@ -42860,18 +42861,18 @@ const ProfileView = ({ user, token, onUserUpdate })=>{
                     token: token
                 }, void 0, false, {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 78,
+                    lineNumber: 79,
                     columnNumber: 9
                 }, undefined)
             ]
         }, void 0, true, {
             fileName: "src/components/profile-view/profile-view.jsx",
-            lineNumber: 64,
+            lineNumber: 65,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/components/profile-view/profile-view.jsx",
-        lineNumber: 63,
+        lineNumber: 64,
         columnNumber: 5
     }, undefined);
 };
@@ -43151,7 +43152,7 @@ const FavoriteMovies = ({ movies, token, user, onRemoveFavorite })=>{
             }
         }).then(()=>{
             alert("Movie removed from favorites");
-            onRemoveFavorite(movieId);
+            onRemoveFavorite(movieId); // removes movie from local list (passed from ProfileView)
         }).catch((error)=>console.error("Error removing favorite:", error));
     };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -43171,7 +43172,7 @@ const FavoriteMovies = ({ movies, token, user, onRemoveFavorite })=>{
                 columnNumber: 9
             }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Row), {
                 children: movies.map((movie)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
-                        md: 4,
+                        md: 6,
                         className: "mb-4",
                         children: [
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieCard.MovieCard), {
@@ -43252,6 +43253,7 @@ const DeleteProfile = ({ user, token })=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
+                className: "delete-profile",
                 children: "Delete Account"
             }, void 0, false, {
                 fileName: "src/components/profile-view/delete-profile.jsx",

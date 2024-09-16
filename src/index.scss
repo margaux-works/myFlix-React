@@ -103,7 +103,7 @@ h2 {
 }
 .favorite-button-wrapper {
   position: relative;
-  display: inline-block; /* Ensure the button and tooltip are linked */
+  display: inline-block;
 }
 
 .favorite-btn {
@@ -125,9 +125,8 @@ h2 {
   white-space: nowrap;
   visibility: hidden;
   transition: opacity 0.3s, visibility 0.3s;
-  z-index: 2; /* Added to ensure it's on top */
+  z-index: 2;
 
-  /* Tooltip arrow */
   &:after {
     content: '';
     position: absolute;
@@ -138,12 +137,17 @@ h2 {
     border-style: solid;
     border-color: $primary transparent transparent transparent;
     opacity: 0.7;
-    z-index: 1; /* Ensure the arrow shows */
+    z-index: 1;
   }
 }
 
-/* Show the tooltip on button hover */
 .favorite-button-wrapper:hover .favorite-tooltip {
   opacity: 0.7;
   visibility: visible;
+}
+
+//PROFILE-VIEW
+
+.delete-profile {
+  margin-top: 2rem;
 }

@@ -13321,4 +13321,8 @@ body, h1, .h1, h2, .h2 {
   opacity: .7;
   visibility: visible;
 }
+
+.delete-profile {
+  margin-top: 2rem;
+}
 /*# sourceMappingURL=index.c35a7de5.css.map */
