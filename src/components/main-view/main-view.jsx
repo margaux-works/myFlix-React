@@ -47,7 +47,7 @@ export const MainView = () => {
   }, [token]);
 
   const handleFavoriteChange = (movieId, isFavorite) => {
-    const method = isFavorite ? 'PUT' : 'DELETE'; // Use PUT for adding, DELETE for removing
+    const method = isFavorite ? 'PUT' : 'DELETE'; // PUT for adding, DELETE for removing
     const url = `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}/movies/${movieId}`;
 
     fetch(url, {
@@ -61,17 +61,10 @@ export const MainView = () => {
           ? [...user.FavoriteMovies, movieId] // Add to favorites
           : user.FavoriteMovies.filter((id) => id !== movieId); // Remove from favorites
 
-        // Update user with the new favorites list
+        // Update user with new favorites list
         const updatedUser = { ...user, FavoriteMovies: updatedFavorites };
         setUser(updatedUser);
         localStorage.setItem('user', JSON.stringify(updatedUser));
-
-        // Update the movies state to reflect the favorite status
-        setMovies(
-          movies.map((movie) =>
-            movie.id === movieId ? { ...movie, isFavorite } : movie
-          )
-        );
       })
       .catch((error) => console.error('Error updating favorite movie:', error));
   };

@@ -17,9 +17,10 @@ export const MovieCard = ({
     setIsFavorite(user?.FavoriteMovies?.includes(movie.id) || false);
   }, [user, movie.id]);
 
+  // When the toggle happens, pass the new favorite status up to the parent
   const handleFavoriteToggle = () => {
+    const method = isFavorite ? 'DELETE' : 'PUT';
     const url = `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}/movies/${movie.id}`;
-    const method = isFavorite ? 'DELETE' : 'PUT'; // Use PUT to add to favorites, DELETE to remove
 
     fetch(url, {
       method,
@@ -28,10 +29,10 @@ export const MovieCard = ({
       .then((response) => {
         if (!response.ok) throw new Error('Network response was not ok');
 
-        // Update parent component with the new favorite status
+        // Pass updated favorite state to parent (MainView) for consistency
         onFavoriteChange(movie.id, !isFavorite);
 
-        // Update local state
+        // Locally update favorite status
         setIsFavorite(!isFavorite);
       })
       .catch((error) => console.error('Error updating favorite movie:', error));
