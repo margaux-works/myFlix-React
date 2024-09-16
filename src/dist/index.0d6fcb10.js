@@ -42781,14 +42781,14 @@ const ProfileView = ({ user, token, onUserUpdate })=>{
     const [favoriteMovies, setFavoriteMovies] = (0, _react.useState)([]);
     const [userData, setUserData] = (0, _react.useState)(user);
     (0, _react.useEffect)(()=>{
-        fetch("https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}", {
+        fetch(`https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }).then((response)=>response.json()).then((data)=>{
             const favoriteMovieIds = data.FavoriteMovies;
             // Fetch full movie details for each favorite movie ID
-            const moviePromises = favoriteMovieIds.map((movieId)=>fetch("https://movies-app2024-74d588eb4f3d.herokuapp.com/${movieId}", {
+            const moviePromises = favoriteMovieIds.map((movieId)=>fetch(`https://movies-app2024-74d588eb4f3d.herokuapp.com/${movieId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
