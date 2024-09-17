@@ -1,5 +1,6 @@
 // src/components/profile-view/edit-user-form.jsx
 import { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
 
 export const EditUserForm = ({ user, token, onUserUpdate }) => {
   const [username, setUsername] = useState(user.Username);
@@ -37,44 +38,58 @@ export const EditUserForm = ({ user, token, onUserUpdate }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <h4>Edit Profile</h4>
-      <label>
-        Username:
-        <input
+      <Form.Group controlId="formUsername">
+        <Form.Control
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
+          minLength="6"
+          placeholder="Username"
+          aria-label="Username"
         />
-      </label>
-      <label>
-        Email:
-        <input
+      </Form.Group>
+      <Form.Group controlId="formEmail" className="mt-2">
+        <Form.Control
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          placeholder="Email"
+          aria-label="Email"
         />
-      </label>
-      <label>
-        Birthday:
-        <input
+      </Form.Group>
+      <Form.Group controlId="formPassword" className="mt-2">
+        <Form.Control
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          minLength="8"
+          placeholder="Password"
+          aria-label="Password"
+        />
+      </Form.Group>
+      <Form.Group controlId="formBirthday" className="mt-2">
+        <Form.Label>Birthday:</Form.Label>
+        <Form.Control
           type="date"
           value={birthday}
           onChange={(e) => setBirthday(e.target.value)}
           required
+          className="birthday-field"
         />
-      </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </label>
-      <button type="submit">Update Profile</button>
-    </form>
+      </Form.Group>
+      <Button
+        type="submit"
+        variant="primary"
+        className="mt-3 mb-4 form-button"
+        aria-label="Register"
+      >
+        Update Profile
+      </Button>
+    </Form>
   );
 };

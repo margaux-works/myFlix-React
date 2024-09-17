@@ -78,16 +78,14 @@ export const SignupView = () => {
         />
       </Form.Group>
       <Form.Group controlId="formBirthday" className="mt-2">
-        <Form.Group controlId="formBirthday" className="mt-2">
-          <Form.Label>Birthday:</Form.Label>
-          <Form.Control
-            type="date"
-            value={birthday}
-            onChange={(e) => setBirthday(e.target.value)}
-            required
-            className="birthday-field"
-          />
-        </Form.Group>
+        <Form.Label>Birthday:</Form.Label>
+        <Form.Control
+          type="date"
+          value={birthday}
+          onChange={(e) => setBirthday(e.target.value)}
+          required
+          className="birthday-field"
+        />
       </Form.Group>
       <Button
         type="submit"

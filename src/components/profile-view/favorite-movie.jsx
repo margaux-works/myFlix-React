@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { MovieCard } from '../movie-card/movie-card';
 
 export const FavoriteMovies = ({ movies, token, user, handleReload }) => {
@@ -11,7 +11,7 @@ export const FavoriteMovies = ({ movies, token, user, handleReload }) => {
       ) : (
         <Row>
           {movies.map((movie) => (
-            <Col md={6} key={movie.id} className="mb-4">
+            <Col sm={6} md={4} key={movie.id} className="mb-4">
               <MovieCard
                 movie={movie}
                 user={user}

@@ -125,5 +125,5 @@ MovieCard.propTypes = {
     FavoriteMovies: PropTypes.array.isRequired,
   }),
   token: PropTypes.string.isRequired,
-  handleReload: PropTypes.func.isRequired,
+  handleReload: PropTypes.func,
 };

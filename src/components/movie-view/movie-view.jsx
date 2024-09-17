@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { MovieCard } from '../movie-card/movie-card';
 
-export const MovieView = ({ movies, getSimilarMovies }) => {
+export const MovieView = ({ user, token, movies, getSimilarMovies }) => {
   const { movieId } = useParams();
   const movie = movies.find((m) => m.id === movieId);
 
@@ -14,7 +14,7 @@ export const MovieView = ({ movies, getSimilarMovies }) => {
   const similarMovies = getSimilarMovies(movie);
 
   return (
-    <div>
+    <div style={{ maxWidth: '550px' }}>
       <h1>{movie.title}</h1>
       <div>
         <img src={movie.image} className="fluid" />
@@ -47,10 +47,13 @@ export const MovieView = ({ movies, getSimilarMovies }) => {
       <Row>
         {similarMovies.length > 0 ? (
           similarMovies.map((similarMovie) => (
-            <Col key={similarMovie.id} md={4} className="mb-4">
-              <Link to={`/movies/${similarMovie.id}`}>
-                <MovieCard movie={similarMovie} />
-              </Link>
+            <Col key={similarMovie.id} sm={6} md={6} lg={5} className="mb-4">
+              <MovieCard
+                movie={similarMovie}
+                user={user}
+                token={token}
+                handleReload={() => {}}
+              />
             </Col>
           ))
         ) : (
@@ -64,4 +67,6 @@ export const MovieView = ({ movies, getSimilarMovies }) => {
 MovieView.propTypes = {
   movies: PropTypes.array.isRequired,
   getSimilarMovies: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  token: PropTypes.string.isRequired,
 };

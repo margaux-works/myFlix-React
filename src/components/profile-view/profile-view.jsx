@@ -62,24 +62,26 @@ export const ProfileView = ({ token, onUserUpdate }) => {
 
   return (
     <Row className="profile-view">
-      <Col md={8}>
-        <h2>My Profile</h2>
+      <h2>My Profile</h2>
+      <Col md={6}>
         <UserData user={user} />
+      </Col>
+      <Col md={6}>
         <EditUserForm
           user={user}
           token={token}
           onUserUpdate={handleUserUpdate}
         />
-        <FavoriteMovies
-          movies={favoriteMovies}
-          token={token}
-          user={user}
-          handleReload={() => {
-            setReload(!reload);
-          }}
-        />
-        <DeleteProfile user={user} token={token} />
       </Col>
+      <FavoriteMovies
+        movies={favoriteMovies}
+        token={token}
+        user={user}
+        handleReload={() => {
+          setReload(!reload);
+        }}
+      />
+      <DeleteProfile user={user} token={token} />
     </Row>
   );
 };
