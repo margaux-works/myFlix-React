@@ -13225,13 +13225,15 @@ body, h1, .h1, h2, .h2 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto;
   padding: 1rem;
-  display: flex;
+  display: block;
 }
 
 .login-title {
-  justify-content: left;
-  align-items: left;
+  text-align: center;
   margin-bottom: 1rem;
 }
 
@@ -13245,6 +13247,12 @@ body, h1, .h1, h2, .h2 {
 
 .form-control {
   color: #fff;
+  border: none;
+  border-bottom: 1px solid #ffffff80;
+  border-radius: 0;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1.5rem;
   font-weight: 300;
 }
 
@@ -13254,12 +13262,15 @@ body, h1, .h1, h2, .h2 {
   font-weight: 300;
 }
 
-.form-control.is-invalid {
-  border-color: none;
+.form-control:focus {
+  box-shadow: none;
+  border-bottom-color: #fc4747;
+  outline: none;
 }
 
-.form-control.is-invalid:focus {
-  box-shadow: 0 0 0 .2rem, #fc474740;
+.form-control.is-invalid, .form-control.is-invalid:focus {
+  box-shadow: none;
+  border-bottom-color: #fc4747;
 }
 
 .signup-link {
@@ -13270,6 +13281,32 @@ body, h1, .h1, h2, .h2 {
 .signup-link:hover {
   color: #fc4747;
   text-decoration: underline;
+}
+
+.birthday-field {
+  background-color: #ffffff80;
+}
+
+input:-webkit-autofill {
+  font-weight: 300;
+  color: #fff !important;
+  background-color: #0000 !important;
+  box-shadow: inset 0 0 0 1000px #10141e !important;
+}
+
+input:-webkit-autofill:first-line {
+  color: #fff;
+  font-family: Outfit, sans-serif;
+}
+
+input:-webkit-autofill:focus {
+  background-color: #0000 !important;
+  box-shadow: inset 0 0 0 1000px #161d2f !important;
+}
+
+input:-moz-autofill {
+  color: #fff !important;
+  background-color: #0000 !important;
 }
 
 .favorite-icon {

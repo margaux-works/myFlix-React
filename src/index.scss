@@ -46,15 +46,17 @@ h2 {
 .login-form,
 .signup-form {
   padding: 1rem;
-  display: flex;
+  display: block;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .login-title {
-  justify-content: left;
-  align-items: left;
+  text-align: center;
   margin-bottom: 1rem;
 }
 
@@ -69,6 +71,12 @@ h2 {
 .form-control {
   font-weight: 300;
   color: $body-color;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0;
+  width: 100%;
+  max-width: 100%; // Ensure they don’t shrink
+  margin-bottom: 1.5rem;
 }
 
 .form-control::placeholder {
@@ -77,12 +85,20 @@ h2 {
   opacity: 0.5;
 }
 
+.form-control:focus {
+  outline: none;
+  box-shadow: none;
+  border-bottom-color: $primary;
+}
+
 .form-control.is-invalid {
-  border-color: none;
+  border-bottom-color: $primary;
+  box-shadow: none;
 }
 
 .form-control.is-invalid:focus {
-  box-shadow: 0 0 0 0.2rem, rgba(252, 71, 71, 0.25);
+  border-bottom-color: $primary;
+  box-shadow: none;
 }
 
 .signup-link {
@@ -93,6 +109,36 @@ h2 {
     text-decoration: underline;
     color: $primary;
   }
+}
+
+.birthday-field {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+//forms autofill reset
+input:-webkit-autofill {
+  background-color: transparent !important;
+  color: $body-color !important;
+  font-weight: 300;
+  box-shadow: 0 0 0px 1000px $body-bg inset !important; // Force the background color to match your design
+}
+
+// For non-WebKit browsers (fallback)
+input:-webkit-autofill::first-line {
+  font-family: 'Outfit', sans-serif;
+  color: $body-color; // Consistent text color
+}
+
+// Autofill when input is focused
+input:-webkit-autofill:focus {
+  background-color: transparent !important;
+  box-shadow: 0 0 0px 1000px $body-secondary-color-bg inset !important;
+}
+
+// Apply for Mozilla (Firefox)
+input:-moz-autofill {
+  background-color: transparent !important;
+  color: $body-color !important;
 }
 
 //FAVORITE TOGGLE

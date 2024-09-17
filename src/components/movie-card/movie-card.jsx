@@ -23,7 +23,7 @@ export const MovieCard = ({ movie, user, token, handleReload }) => {
       .then((response) => response.json())
       .then((user) => {
         localStorage.setItem('user', JSON.stringify(user));
-        console.log('get fresh nuser data');
+        console.log('get fresh user data');
         handleReload();
       })
       .catch((error) =>
@@ -125,6 +125,5 @@ MovieCard.propTypes = {
     FavoriteMovies: PropTypes.array.isRequired,
   }),
   token: PropTypes.string.isRequired,
-  onFavoriteChange: PropTypes.func.isRequired,
-  isFavorite: PropTypes.bool.isRequired,
+  handleReload: PropTypes.func.isRequired,
 };

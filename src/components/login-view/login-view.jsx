@@ -49,6 +49,7 @@ export const LoginView = ({ onLoggedIn }) => {
           required
           minLength="6"
           placeholder="Username"
+          aria-label="username"
         />
       </Form.Group>
       <Form.Group controlId="formPassword" className="mt-4">
@@ -59,10 +60,16 @@ export const LoginView = ({ onLoggedIn }) => {
           required
           minLength="8"
           placeholder="Password"
+          aria-label="Password"
         />
       </Form.Group>
 
-      <Button variant="primary" type="submit" className="mt-4 form-button">
+      <Button
+        variant="primary"
+        type="submit"
+        className="mt-4 form-button"
+        aria-label="login"
+      >
         Login to your account
       </Button>
       <p>

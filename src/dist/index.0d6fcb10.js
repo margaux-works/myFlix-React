@@ -27347,7 +27347,8 @@ const MainView = ()=>{
                                 lineNumber: 99,
                                 columnNumber: 17
                             }, void 0) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _colDefault.default), {
-                                md: 5,
+                                xs: 12,
+                                md: 6,
                                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _signupView.SignupView), {}, void 0, false, {
                                     fileName: "src/components/main-view/main-view.jsx",
                                     lineNumber: 102,
@@ -27373,7 +27374,8 @@ const MainView = ()=>{
                                 lineNumber: 112,
                                 columnNumber: 17
                             }, void 0) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _colDefault.default), {
-                                md: 5,
+                                xs: 12,
+                                md: 10,
                                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _loginView.LoginView), {
                                     onLoggedIn: (user, token)=>{
                                         setUser(user);
@@ -27561,7 +27563,7 @@ const MovieCard = ({ movie, user, token, handleReload })=>{
             }
         }).then((response)=>response.json()).then((user)=>{
             localStorage.setItem("user", JSON.stringify(user));
-            console.log("get fresh nuser data");
+            console.log("get fresh user data");
             handleReload();
         }).catch((error)=>console.error("Error fetching favorite movies:", error));
     }, [
@@ -27713,8 +27715,7 @@ MovieCard.propTypes = {
         FavoriteMovies: (0, _propTypesDefault.default).array.isRequired
     }),
     token: (0, _propTypesDefault.default).string.isRequired,
-    onFavoriteChange: (0, _propTypesDefault.default).func.isRequired,
-    isFavorite: (0, _propTypesDefault.default).bool.isRequired
+    handleReload: (0, _propTypesDefault.default).func.isRequired
 };
 var _c;
 $RefreshReg$(_c, "MovieCard");
@@ -42497,7 +42498,8 @@ const LoginView = ({ onLoggedIn })=>{
                     onChange: (e)=>setUsername(e.target.value),
                     required: true,
                     minLength: "6",
-                    placeholder: "Username"
+                    placeholder: "Username",
+                    "aria-label": "username"
                 }, void 0, false, {
                     fileName: "src/components/login-view/login-view.jsx",
                     lineNumber: 45,
@@ -42517,25 +42519,27 @@ const LoginView = ({ onLoggedIn })=>{
                     onChange: (e)=>setPassword(e.target.value),
                     required: true,
                     minLength: "8",
-                    placeholder: "Password"
+                    placeholder: "Password",
+                    "aria-label": "Password"
                 }, void 0, false, {
                     fileName: "src/components/login-view/login-view.jsx",
-                    lineNumber: 55,
+                    lineNumber: 56,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 54,
+                lineNumber: 55,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
                 variant: "primary",
                 type: "submit",
                 className: "mt-4 form-button",
+                "aria-label": "login",
                 children: "Login to your account"
             }, void 0, false, {
                 fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 65,
+                lineNumber: 67,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -42548,13 +42552,13 @@ const LoginView = ({ onLoggedIn })=>{
                         children: "Sign Up"
                     }, void 0, false, {
                         fileName: "src/components/login-view/login-view.jsx",
-                        lineNumber: 70,
+                        lineNumber: 77,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 68,
+                lineNumber: 75,
                 columnNumber: 7
             }, undefined)
         ]
@@ -42643,7 +42647,8 @@ const SignupView = ()=>{
                     onChange: (e)=>setUsername(e.target.value),
                     required: true,
                     minLength: "6",
-                    placeholder: "Username"
+                    placeholder: "Username",
+                    "aria-label": "Username"
                 }, void 0, false, {
                     fileName: "src/components/signup-view/signup-view.jsx",
                     lineNumber: 49,
@@ -42663,15 +42668,16 @@ const SignupView = ()=>{
                     onChange: (e)=>setPassword(e.target.value),
                     required: true,
                     minLength: "8",
-                    placeholder: "Password"
+                    placeholder: "Password",
+                    "aria-label": "Password"
                 }, void 0, false, {
                     fileName: "src/components/signup-view/signup-view.jsx",
-                    lineNumber: 59,
+                    lineNumber: 60,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 58,
+                lineNumber: 59,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Group, {
@@ -42682,52 +42688,63 @@ const SignupView = ()=>{
                     value: email,
                     onChange: (e)=>setEmail(e.target.value),
                     required: true,
-                    placeholder: "Email"
+                    placeholder: "Email",
+                    "aria-label": "Email"
                 }, void 0, false, {
                     fileName: "src/components/signup-view/signup-view.jsx",
-                    lineNumber: 69,
+                    lineNumber: 71,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 68,
+                lineNumber: 70,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Group, {
                 controlId: "formBirthday",
                 className: "mt-2",
-                children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Label, {
-                        children: "Birthday:"
-                    }, void 0, false, {
-                        fileName: "src/components/signup-view/signup-view.jsx",
-                        lineNumber: 78,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Control, {
-                        type: "date",
-                        value: birthday,
-                        onChange: (e)=>setBirthday(e.target.value),
-                        required: true
-                    }, void 0, false, {
-                        fileName: "src/components/signup-view/signup-view.jsx",
-                        lineNumber: 79,
-                        columnNumber: 9
-                    }, undefined)
-                ]
-            }, void 0, true, {
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Group, {
+                    controlId: "formBirthday",
+                    className: "mt-2",
+                    children: [
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Label, {
+                            children: "Birthday:"
+                        }, void 0, false, {
+                            fileName: "src/components/signup-view/signup-view.jsx",
+                            lineNumber: 82,
+                            columnNumber: 11
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Control, {
+                            type: "date",
+                            value: birthday,
+                            onChange: (e)=>setBirthday(e.target.value),
+                            required: true,
+                            className: "birthday-field"
+                        }, void 0, false, {
+                            fileName: "src/components/signup-view/signup-view.jsx",
+                            lineNumber: 83,
+                            columnNumber: 11
+                        }, undefined)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/components/signup-view/signup-view.jsx",
+                    lineNumber: 81,
+                    columnNumber: 9
+                }, undefined)
+            }, void 0, false, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 77,
+                lineNumber: 80,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
                 type: "submit",
                 variant: "primary",
                 className: "mt-3 mb-4 form-button",
+                "aria-label": "Register",
                 children: "Register"
             }, void 0, false, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 86,
+                lineNumber: 92,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -42740,13 +42757,13 @@ const SignupView = ()=>{
                         children: "Login"
                     }, void 0, false, {
                         fileName: "src/components/signup-view/signup-view.jsx",
-                        lineNumber: 91,
+                        lineNumber: 102,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 89,
+                lineNumber: 100,
                 columnNumber: 7
             }, undefined)
         ]

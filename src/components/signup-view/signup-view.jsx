@@ -53,6 +53,7 @@ export const SignupView = () => {
           required
           minLength="6"
           placeholder="Username"
+          aria-label="Username"
         />
       </Form.Group>
       <Form.Group controlId="formPassword" className="mt-2">
@@ -63,6 +64,7 @@ export const SignupView = () => {
           required
           minLength="8"
           placeholder="Password"
+          aria-label="Password"
         />
       </Form.Group>
       <Form.Group controlId="formEmail" className="mt-2">
@@ -72,18 +74,27 @@ export const SignupView = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
           placeholder="Email"
+          aria-label="Email"
         />
       </Form.Group>
       <Form.Group controlId="formBirthday" className="mt-2">
-        <Form.Label>Birthday:</Form.Label>
-        <Form.Control
-          type="date"
-          value={birthday}
-          onChange={(e) => setBirthday(e.target.value)}
-          required
-        />
+        <Form.Group controlId="formBirthday" className="mt-2">
+          <Form.Label>Birthday:</Form.Label>
+          <Form.Control
+            type="date"
+            value={birthday}
+            onChange={(e) => setBirthday(e.target.value)}
+            required
+            className="birthday-field"
+          />
+        </Form.Group>
       </Form.Group>
-      <Button type="submit" variant="primary" className="mt-3 mb-4 form-button">
+      <Button
+        type="submit"
+        variant="primary"
+        className="mt-3 mb-4 form-button"
+        aria-label="Register"
+      >
         Register
       </Button>
       <p>
