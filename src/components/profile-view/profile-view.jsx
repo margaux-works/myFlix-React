@@ -6,9 +6,11 @@ import { DeleteProfile } from './delete-profile';
 import { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
-export const ProfileView = ({ user, token, onUserUpdate }) => {
+export const ProfileView = ({ token, onUserUpdate }) => {
+  const storedUser = JSON.parse(localStorage.getItem('user'));
   const [favoriteMovies, setFavoriteMovies] = useState([]);
-  const [userData, setUserData] = useState(user);
+  const [user, setUserData] = useState(storedUser);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     fetch(
@@ -22,14 +24,15 @@ export const ProfileView = ({ user, token, onUserUpdate }) => {
         const favoriteMovieIds = data.FavoriteMovies;
 
         // Fetch full movie details for each favorite movie ID
-        const moviePromises = favoriteMovieIds.map((movieId) =>
-          fetch(
+        const moviePromises = favoriteMovieIds.map(async (movieId) => {
+          let reply = await fetch(
             `https://movies-app2024-74d588eb4f3d.herokuapp.com/${movieId}`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }
-          ).then((res) => res.json())
-        );
+          );
+          return reply.json();
+        });
 
         Promise.all(moviePromises).then((movies) => {
           //ensure all requests finish before updating state with favorite movies
@@ -43,40 +46,39 @@ export const ProfileView = ({ user, token, onUserUpdate }) => {
               genre: movie.Genre,
               description: movie.Description,
             }));
+          console.log('set new list of movies', favoriteMoviesFromApi);
           setFavoriteMovies(favoriteMoviesFromApi);
         });
       })
       .catch((error) =>
         console.error('Error fetching favorite movies:', error)
       );
-  }, [user, token]);
+  }, [user, token, reload]);
 
   const handleUserUpdate = (updatedUser) => {
     setUserData(updatedUser);
     onUserUpdate(updatedUser);
   };
 
-  const handleRemoveFavorite = (movieId) => {
-    setFavoriteMovies(favoriteMovies.filter((movie) => movie.id !== movieId));
-  };
-
   return (
     <Row className="profile-view">
       <Col md={8}>
         <h2>My Profile</h2>
-        <UserData user={userData} />
+        <UserData user={user} />
         <EditUserForm
-          user={userData}
+          user={user}
           token={token}
           onUserUpdate={handleUserUpdate}
         />
         <FavoriteMovies
           movies={favoriteMovies}
           token={token}
-          user={userData}
-          onRemoveFavorite={handleRemoveFavorite}
+          user={user}
+          handleReload={() => {
+            setReload(!reload);
+          }}
         />
-        <DeleteProfile user={userData} token={token} />
+        <DeleteProfile user={user} token={token} />
       </Col>
     </Row>
   );

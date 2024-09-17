@@ -3,19 +3,33 @@ import { Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-export const MovieCard = ({
-  movie,
-  user,
-  token,
-  onFavoriteChange,
-  isFavorite: initialFavorite,
-}) => {
-  const [isFavorite, setIsFavorite] = useState(initialFavorite);
+export const MovieCard = ({ movie, user, token, handleReload }) => {
+  const [isFavorite, setIsFavorite] = useState(
+    user?.FavoriteMovies?.includes(movie.id)
+  );
 
   // check if movie's ID exist in the user's list of fav movie. if yes, set to true. if not, set to false.
   useEffect(() => {
     setIsFavorite(user?.FavoriteMovies?.includes(movie.id) || false);
   }, [user, movie.id]);
+
+  useEffect(() => {
+    fetch(
+      `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
+      .then((response) => response.json())
+      .then((user) => {
+        localStorage.setItem('user', JSON.stringify(user));
+        console.log('get fresh nuser data');
+        handleReload();
+      })
+      .catch((error) =>
+        console.error('Error fetching favorite movies:', error)
+      );
+  }, [isFavorite]);
 
   // function triggered when user clicks on fav button
   const handleFavoriteToggle = () => {
@@ -29,7 +43,7 @@ export const MovieCard = ({
       .then((response) => {
         if (!response.ok) throw new Error('Network response was not ok');
 
-        onFavoriteChange(movie.id, !isFavorite); // inform MainView about change
+        // onFavoriteChange(!isFavorite); // inform MainView about change
 
         setIsFavorite(!isFavorite); // update local state to reflect change on UI
       })

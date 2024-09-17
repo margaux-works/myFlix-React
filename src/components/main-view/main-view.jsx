@@ -133,7 +133,6 @@ export const MainView = () => {
               ) : (
                 <Col md={8}>
                   <ProfileView
-                    user={user}
                     token={token}
                     onUserUpdate={(updatedUser) => {
                       setUser(updatedUser);
@@ -156,15 +155,7 @@ export const MainView = () => {
                 <>
                   {movies.map((movie) => (
                     <Col className="mb-4" key={movie.id} md={3}>
-                      <MovieCard
-                        movie={movie}
-                        user={user}
-                        token={token}
-                        isFavorite={user.FavoriteMovies.includes(movie.id)}
-                        onFavoriteChange={(isFavorite) =>
-                          handleFavoriteChange(movie.id, isFavorite)
-                        }
-                      />
+                      <MovieCard movie={movie} user={user} token={token} />
                     </Col>
                   ))}
                 </>
