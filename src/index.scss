@@ -42,6 +42,10 @@ h2 {
   color: $body-color;
 }
 
+.nav-link:current {
+  color: $primary;
+}
+
 //FORMS
 .login-form,
 .signup-form {

@@ -11,7 +11,7 @@ export const FavoriteMovies = ({ movies, token, user, handleReload }) => {
       ) : (
         <Row>
           {movies.map((movie) => (
-            <Col sm={6} md={4} key={movie.id} className="mb-4">
+            <Col sm={6} md={5} key={movie.id} className="mb-4">
               <MovieCard
                 movie={movie}
                 user={user}

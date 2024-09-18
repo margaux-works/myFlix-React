@@ -13221,6 +13221,10 @@ body, h1, .h1, h2, .h2 {
   color: #fff;
 }
 
+.nav-link:current {
+  color: #fc4747;
+}
+
 .login-form, .signup-form {
   flex-direction: column;
   justify-content: center;

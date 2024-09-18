@@ -71,12 +71,23 @@ export const MainView = () => {
       .catch((error) => console.error('Error updating favorite movie:', error));
   };
 
-  // Define handleReload to trigger re-fetching movies
   const handleReload = () => {
-    setReload(!reload); // Toggle the reload state
+    fetch(
+      `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
+      .then((response) => response.json())
+      .then((updatedUser) => {
+        setUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+      })
+      .catch((error) =>
+        console.error('Error fetching updated user data:', error)
+      );
   };
 
-  // Logic to filter similar movies
   const getSimilarMovies = (movie) => {
     return movies.filter(
       (similarMovie) =>
@@ -186,6 +197,8 @@ export const MainView = () => {
                     token={token}
                     movies={movies}
                     getSimilarMovies={getSimilarMovies}
+                    handleFavoriteChange={handleFavoriteChange}
+                    handleReload={handleReload}
                   />
                 </Col>
               )

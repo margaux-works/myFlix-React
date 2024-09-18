@@ -31,7 +31,6 @@ export const MovieCard = ({ movie, user, token, handleReload }) => {
       );
   }, [isFavorite]);
 
-  // function triggered when user clicks on fav button
   const handleFavoriteToggle = () => {
     const method = isFavorite ? 'DELETE' : 'PUT';
     const url = `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}/movies/${movie.id}`;
@@ -43,9 +42,7 @@ export const MovieCard = ({ movie, user, token, handleReload }) => {
       .then((response) => {
         if (!response.ok) throw new Error('Network response was not ok');
 
-        // onFavoriteChange(!isFavorite); // inform MainView about change
-
-        setIsFavorite(!isFavorite); // update local state to reflect change on UI
+        setIsFavorite(!isFavorite);
       })
       .catch((error) => console.error('Error updating favorite movie:', error));
   };

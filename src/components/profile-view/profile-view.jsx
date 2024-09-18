@@ -1,4 +1,3 @@
-// src/components/profile-view/profile-view.jsx
 import { UserData } from './user-data';
 import { EditUserForm } from './edit-user-form';
 import { FavoriteMovies } from './favorite-movie';
@@ -23,7 +22,6 @@ export const ProfileView = ({ token, onUserUpdate }) => {
       .then((data) => {
         const favoriteMovieIds = data.FavoriteMovies;
 
-        // Fetch full movie details for each favorite movie ID
         const moviePromises = favoriteMovieIds.map(async (movieId) => {
           let reply = await fetch(
             `https://movies-app2024-74d588eb4f3d.herokuapp.com/${movieId}`,
@@ -35,7 +33,6 @@ export const ProfileView = ({ token, onUserUpdate }) => {
         });
 
         Promise.all(moviePromises).then((movies) => {
-          //ensure all requests finish before updating state with favorite movies
           const favoriteMoviesFromApi = movies
             .filter((movie) => movie !== null)
             .map((movie) => ({
