@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
 import { LoginView } from '../login-view/login-view';
 import { SignupView } from '../signup-view/signup-view';
 import { ProfileView } from '../profile-view/profile-view';
 import { NavigationBar } from '../navigation-bar/navigation-bar';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -15,8 +16,25 @@ export const MainView = () => {
   const [token, setToken] = useState(storedToken);
   const [user, setUser] = useState(storedUser);
   const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [reload, setReload] = useState(false); // added
+
+  useEffect(() => {
+    if (!token || !storedUser?.Username) {
+      return;
+    }
+
+    fetch(
+      `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${storedUser?.Username}`,
+      {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setUser(data);
+        localStorage.setItem('user', JSON.stringify(data));
+      });
+  }, [token, storedUser?.Username]);
 
   useEffect(() => {
     if (!token) {
@@ -43,7 +61,7 @@ export const MainView = () => {
       .catch((error) => {
         console.error('Fetch error:', error);
       });
-  }, [token, reload]); // reload added
+  }, [token]);
 
   const handleFavoriteChange = (movieId, isFavorite) => {
     const method = isFavorite ? 'PUT' : 'DELETE';
@@ -151,6 +169,8 @@ export const MainView = () => {
               ) : (
                 <Col md={8}>
                   <ProfileView
+                    user={user}
+                    movies={movies}
                     token={token}
                     onUserUpdate={(updatedUser) => {
                       setUser(updatedUser);
@@ -177,7 +197,13 @@ export const MainView = () => {
                         movie={movie}
                         token={token}
                         user={user}
-                        handleReload={handleReload}
+                        setUser={(updatedUser) => {
+                          setUser(updatedUser);
+                          localStorage.setItem(
+                            'user',
+                            JSON.stringify(updatedUser)
+                          );
+                        }}
                       />
                     </Col>
                   ))}

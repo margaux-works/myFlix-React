@@ -2,7 +2,13 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { MovieCard } from '../movie-card/movie-card';
 
-export const FavoriteMovies = ({ movies, token, user, handleReload }) => {
+export const FavoriteMovies = ({
+  movies,
+  token,
+  user,
+  setUser,
+  handleReload,
+}) => {
   return (
     <div>
       <h4>Your Favorite Movies</h4>
@@ -15,6 +21,7 @@ export const FavoriteMovies = ({ movies, token, user, handleReload }) => {
               <MovieCard
                 movie={movie}
                 user={user}
+                setUser={setUser}
                 token={token}
                 handleReload={() => handleReload()}
               />

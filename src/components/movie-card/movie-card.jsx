@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
-export const MovieCard = ({ movie, user, token, handleReload }) => {
+export const MovieCard = ({ movie, user, token, setUser }) => {
   const [isFavorite, setIsFavorite] = useState(
     user?.FavoriteMovies?.includes(movie.id)
   );
@@ -12,24 +12,6 @@ export const MovieCard = ({ movie, user, token, handleReload }) => {
   useEffect(() => {
     setIsFavorite(user?.FavoriteMovies?.includes(movie.id) || false);
   }, [user, movie.id]);
-
-  useEffect(() => {
-    fetch(
-      `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    )
-      .then((response) => response.json())
-      .then((user) => {
-        localStorage.setItem('user', JSON.stringify(user));
-        console.log('get fresh user data');
-        handleReload();
-      })
-      .catch((error) =>
-        console.error('Error fetching favorite movies:', error)
-      );
-  }, [isFavorite]);
 
   const handleFavoriteToggle = () => {
     const method = isFavorite ? 'DELETE' : 'PUT';
@@ -41,8 +23,11 @@ export const MovieCard = ({ movie, user, token, handleReload }) => {
     })
       .then((response) => {
         if (!response.ok) throw new Error('Network response was not ok');
-
+        return response.json();
+      })
+      .then((updateUser) => {
         setIsFavorite(!isFavorite);
+        setUser(updateUser);
       })
       .catch((error) => console.error('Error updating favorite movie:', error));
   };
