@@ -75,15 +75,13 @@ export const MainView = () => {
         if (!response.ok) throw new Error('Network response was not ok');
 
         const updatedFavorites = isFavorite
-          ? [...user.FavoriteMovies, movieId] // Add to favorites
-          : user.FavoriteMovies.filter((id) => id !== movieId); // Remove from favorites
+          ? [...user.FavoriteMovies, movieId]
+          : user.FavoriteMovies.filter((id) => id !== movieId);
 
-        // Update user with new favorites list
         const updatedUser = { ...user, FavoriteMovies: updatedFavorites };
         setUser(updatedUser);
         localStorage.setItem('user', JSON.stringify(updatedUser));
 
-        //reload added
         handleReload();
       })
       .catch((error) => console.error('Error updating favorite movie:', error));
