@@ -25,7 +25,21 @@ The **myFlix Client** is a single-page application (SPA) built with React that s
 - **Parcel**: Build tool for bundling and serving the application.
 - **Bootstrap**: CSS framework for responsive design and styling.
 - **JavaScript (ES2015+)**: Language for client-side logic and interactions.
-- **Axios**: Library for making HTTP requests to the myFlix API.
+
+## Screenshots
+
+### Home Page Mobile
+![home page](https://github.com/margaux-works/myFlix-client/blob/main/src/assets/Home_Mobile.png)
+
+### Movie Details Mobile
+![movie view details](https://github.com/margaux-works/myFlix-client/blob/main/src/assets/Movie_view_mobile.png)
+
+### Profile view Mobile
+![Profile view](https://github.com/margaux-works/myFlix-client/blob/main/src/assets/Profile_view.png)
+
+### Search View Desktop
+![Search View](https://github.com/margaux-works/myFlix-client/blob/main/src/assets/Search_view.png)
+
 
 ## Development Status
 
