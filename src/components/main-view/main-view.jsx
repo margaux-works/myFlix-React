@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Row, Col, Form } from 'react-bootstrap';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import { LoginView } from '../login-view/login-view';
@@ -16,6 +15,8 @@ export const MainView = () => {
   const [token, setToken] = useState(storedToken);
   const [user, setUser] = useState(storedUser);
   const [movies, setMovies] = useState([]);
+  const [search, setSearch] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState('');
 
   useEffect(() => {
     if (!token || !storedUser?.Username) {
@@ -112,6 +113,15 @@ export const MainView = () => {
     );
   };
 
+  const filteredMovies = movies.filter((movie) => {
+    return (
+      movie.title.toLowerCase().includes(search.toLowerCase()) &&
+      (selectedGenre === '' || movie.genre.Name === selectedGenre)
+    );
+  });
+
+  const genres = [...new Set(movies.map((movie) => movie.genre.Name))];
+
   return (
     <BrowserRouter>
       <NavigationBar
@@ -189,22 +199,47 @@ export const MainView = () => {
                 <Col>The list is empty!</Col>
               ) : (
                 <>
-                  {movies.map((movie) => (
-                    <Col xs={6} md={4} lg={3} className="mb-4" key={movie.id}>
-                      <MovieCard
-                        movie={movie}
-                        token={token}
-                        user={user}
-                        setUser={(updatedUser) => {
-                          setUser(updatedUser);
-                          localStorage.setItem(
-                            'user',
-                            JSON.stringify(updatedUser)
-                          );
-                        }}
+                  <Row className="justify-content-center mb-5">
+                    <Col md={6}>
+                      <Form.Control
+                        type="text"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Search a movie"
                       />
                     </Col>
-                  ))}
+                    <Col md={6}>
+                      <Form.Select
+                        value={selectedGenre}
+                        onChange={(e) => setSelectedGenre(e.target.value)}
+                      >
+                        <option value="">All genres</option>
+                        {genres.map((genre, index) => (
+                          <option key={index} value={genre}>
+                            {genre}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Col>
+                  </Row>
+                  <Row>
+                    {filteredMovies.map((movie) => (
+                      <Col xs={6} md={4} lg={3} className="mb-4" key={movie.id}>
+                        <MovieCard
+                          movie={movie}
+                          token={token}
+                          user={user}
+                          setUser={(updatedUser) => {
+                            setUser(updatedUser);
+                            localStorage.setItem(
+                              'user',
+                              JSON.stringify(updatedUser)
+                            );
+                          }}
+                        />
+                      </Col>
+                    ))}
+                  </Row>
                 </>
               )
             }
