@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+import { Row, Col, Form } from 'react-bootstrap';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
 import { LoginView } from '../login-view/login-view';
 import { SignupView } from '../signup-view/signup-view';
-import { Logo } from '../logo';
-import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { ProfileView } from '../profile-view/profile-view';
+import { NavigationBar } from '../navigation-bar/navigation-bar';
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -14,7 +15,27 @@ export const MainView = () => {
   const [token, setToken] = useState(storedToken);
   const [user, setUser] = useState(storedUser);
   const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [search, setSearch] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState('');
+
+  useEffect(() => {
+    if (!token || !storedUser?.Username) {
+      return;
+    }
+
+    fetch(
+      `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${storedUser?.Username}`,
+      {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setUser(data);
+        localStorage.setItem('user', JSON.stringify(data));
+      });
+  }, [token, storedUser?.Username]);
 
   useEffect(() => {
     if (!token) {
@@ -43,113 +64,208 @@ export const MainView = () => {
       });
   }, [token]);
 
-  if (!user) {
+  const handleFavoriteChange = (movieId, isFavorite) => {
+    const method = isFavorite ? 'PUT' : 'DELETE';
+    const url = `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}/movies/${movieId}`;
+
+    fetch(url, {
+      method: method,
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const updatedFavorites = isFavorite
+          ? [...user.FavoriteMovies, movieId]
+          : user.FavoriteMovies.filter((id) => id !== movieId);
+
+        const updatedUser = { ...user, FavoriteMovies: updatedFavorites };
+        setUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+
+        handleReload();
+      })
+      .catch((error) => console.error('Error updating favorite movie:', error));
+  };
+
+  const handleReload = () => {
+    fetch(
+      `https://movies-app2024-74d588eb4f3d.herokuapp.com/users/${user.Username}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
+      .then((response) => response.json())
+      .then((updatedUser) => {
+        setUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+      })
+      .catch((error) =>
+        console.error('Error fetching updated user data:', error)
+      );
+  };
+
+  const getSimilarMovies = (movie) => {
+    return movies.filter(
+      (similarMovie) =>
+        similarMovie.genre.Name === movie.genre.Name &&
+        similarMovie.id !== movie.id
+    );
+  };
+
+  const filteredMovies = movies.filter((movie) => {
     return (
-      <Row
-        className="justify-content-md-center custom-container"
-        style={{
-          backgroundColor: '#161D2F',
-          borderRadius: '20px',
+      movie.title.toLowerCase().includes(search.toLowerCase()) &&
+      (selectedGenre === '' || movie.genre.Name === selectedGenre)
+    );
+  });
+
+  const genres = [...new Set(movies.map((movie) => movie.genre.Name))];
+
+  return (
+    <BrowserRouter>
+      <NavigationBar
+        user={user}
+        onLoggedOut={() => {
+          setUser(null);
+          setToken(null);
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
         }}
-      >
-        <Col md={12} className="text-center my-3">
-          <Logo position="center" />
-          <h1 className="mt-4">MyFlix DB</h1>
-        </Col>
-        <Col md={8}>
-          <LoginView
-            onLoggedIn={(user, token) => {
-              setUser(user);
-              setToken(token);
-            }}
+      />
+      <Row className="justify-content-md-center custom-container">
+        <Routes>
+          /* Signup Route */
+          <Route
+            path="/signup"
+            element={
+              user ? (
+                <Navigate to="/" />
+              ) : (
+                <Col xs={12} md={6}>
+                  <SignupView />
+                </Col>
+              )
+            }
           />
-        </Col>
-        <Col md={12} className="text-center my-3">
-          <span>or</span>
-        </Col>
-        <Col md={8}>
-          <SignupView />
-        </Col>
-      </Row>
-    );
-  }
-
-  if (selectedMovie) {
-    let similarMovies = movies.filter(
-      (movie) =>
-        movie.genre.Name === selectedMovie.genre.Name &&
-        movie.id !== selectedMovie.id
-    );
-    console.log('Selected Movie Genre:', selectedMovie.genre.Name);
-    console.log('Similar Movie:', similarMovies);
-
-    return (
-      <div className="movie-view-container">
-        <Logo position="left" />
-
-        <Row className="justify-content-md-center">
-          <Col md={8}>
-            <div>
-              <MovieView
-                movie={selectedMovie}
-                onBackClick={() => setSelectedMovie(null)}
-              />
-              <hr />
-              <h2>Similar movies</h2>
-              <div>
-                <Row>
-                  {similarMovies.length > 0 ? (
-                    similarMovies.map((movie) => (
-                      <Col key={movie.id} md={4} className="mb-4">
+          /* Login Route */
+          <Route
+            path="/login"
+            element={
+              user ? (
+                <Navigate to="/" />
+              ) : (
+                <Col xs={12} md={10}>
+                  <LoginView
+                    onLoggedIn={(user, token) => {
+                      setUser(user);
+                      setToken(token);
+                      localStorage.setItem('user', JSON.stringify(user));
+                      localStorage.setItem('token', token);
+                    }}
+                  />
+                </Col>
+              )
+            }
+          />
+          /* Profile Route */
+          <Route
+            path="/profile"
+            element={
+              !user ? (
+                <Navigate to="/login" replace />
+              ) : (
+                <Col md={8}>
+                  <ProfileView
+                    user={user}
+                    movies={movies}
+                    token={token}
+                    onUserUpdate={(updatedUser) => {
+                      setUser(updatedUser);
+                      localStorage.setItem('user', JSON.stringify(updatedUser));
+                    }}
+                  />
+                </Col>
+              )
+            }
+          />
+          /* Default Route - Movie List */
+          <Route
+            path="/"
+            element={
+              !user ? (
+                <Navigate to="/login" replace />
+              ) : movies.length === 0 ? (
+                <Col>The list is empty!</Col>
+              ) : (
+                <>
+                  <Row className="justify-content-center mb-5">
+                    <Col md={6}>
+                      <Form.Control
+                        type="text"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Search a movie"
+                      />
+                    </Col>
+                    <Col md={6}>
+                      <Form.Select
+                        value={selectedGenre}
+                        onChange={(e) => setSelectedGenre(e.target.value)}
+                      >
+                        <option value="">All genres</option>
+                        {genres.map((genre, index) => (
+                          <option key={index} value={genre}>
+                            {genre}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Col>
+                  </Row>
+                  <Row>
+                    {filteredMovies.map((movie) => (
+                      <Col xs={6} md={4} lg={3} className="mb-4" key={movie.id}>
                         <MovieCard
                           movie={movie}
-                          onMovieClick={(newSelectedMovie) => {
-                            setSelectedMovie(newSelectedMovie);
+                          token={token}
+                          user={user}
+                          setUser={(updatedUser) => {
+                            setUser(updatedUser);
+                            localStorage.setItem(
+                              'user',
+                              JSON.stringify(updatedUser)
+                            );
                           }}
                         />
                       </Col>
-                    ))
-                  ) : (
-                    <p>No similar movie found.</p>
-                  )}
-                </Row>
-              </div>
-            </div>
-          </Col>
-        </Row>
-      </div>
-    );
-  }
-
-  if (movies.length === 0) {
-    return <div>The list is empty!</div>;
-  }
-  return (
-    <Row className="justify-content-md-center">
-      <Col md={12}>
-        <Logo position="left" /> {/* Logo at the top left */}
-      </Col>
-      {movies.map((movie) => (
-        <Col className="mb-4" key={movie.id} md={3}>
-          <MovieCard
-            movie={movie}
-            onMovieClick={(newSelectedMovie) => {
-              setSelectedMovie(newSelectedMovie);
-            }}
+                    ))}
+                  </Row>
+                </>
+              )
+            }
           />
-        </Col>
-      ))}
-
-      <button
-        onClick={() => {
-          setUser(null);
-          setToken(null);
-          localStorage.clear();
-        }}
-      >
-        Logout
-      </button>
-    </Row>
+          <Route
+            path="/movies/:movieId"
+            element={
+              !user ? (
+                <Navigate to="/login" replace />
+              ) : (
+                <Col md={8}>
+                  <MovieView
+                    user={user}
+                    token={token}
+                    movies={movies}
+                    getSimilarMovies={getSimilarMovies}
+                    handleFavoriteChange={handleFavoriteChange}
+                    handleReload={handleReload}
+                  />
+                </Col>
+              )
+            }
+          />
+        </Routes>
+      </Row>
+    </BrowserRouter>
   );
 };
 
