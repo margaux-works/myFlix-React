@@ -36,6 +36,7 @@ export const ProfileView = ({ movies, user, token, onUserUpdate }) => {
         handleReload={() => {
           setReload(!reload);
         }}
+        setUser={onUserUpdate}
       />
       <DeleteProfile user={user} token={token} />
     </Row>
