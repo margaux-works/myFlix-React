@@ -17,6 +17,7 @@ export const MovieView = ({
   getSimilarMovies,
   handleFavoriteChange,
   handleReload,
+  onUserUpdate,
 }) => {
   const { movieId } = useParams();
   const movie = movies.find((m) => m.id === movieId);
@@ -87,6 +88,7 @@ export const MovieView = ({
                 user={user}
                 token={token}
                 handleReload={() => {}}
+                setUser={onUserUpdate}
               />
             </Col>
           ))

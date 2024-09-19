@@ -258,6 +258,10 @@ export const MainView = () => {
                     getSimilarMovies={getSimilarMovies}
                     handleFavoriteChange={handleFavoriteChange}
                     handleReload={handleReload}
+                    onUserUpdate={(updatedUser) => {
+                      setUser(updatedUser);
+                      localStorage.setItem('user', JSON.stringify(updatedUser));
+                    }}
                   />
                 </Col>
               )
