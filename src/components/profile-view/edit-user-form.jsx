@@ -1,6 +1,7 @@
 // src/components/profile-view/edit-user-form.jsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import moment from 'moment';
 
 export const EditUserForm = ({ user, token, onUserUpdate }) => {
   const [username, setUsername] = useState(user.Username);
@@ -8,13 +9,21 @@ export const EditUserForm = ({ user, token, onUserUpdate }) => {
   const [birthday, setBirthday] = useState(user.Birthday);
   const [password, setPassword] = useState('');
 
+  // Format the birthday when the component mounts
+  useEffect(() => {
+    if (user.Birthday) {
+      const formattedBirthday = moment(user.Birthday).format('YYYY-MM-DD'); // Date format for input type="date"
+      setBirthday(formattedBirthday);
+    }
+  }, [user.Birthday]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const updatedUser = {
       Username: username,
       Email: email,
-      Birthday: birthday,
+      Birthday: moment(birthday, 'YYYY-MM-DD').toISOString(), // Convert back to ISO format
       Password: password ? password : undefined,
     };
 

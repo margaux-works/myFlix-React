@@ -13283,8 +13283,8 @@ body, h1, .h1, h2, .h2 {
   text-decoration: underline;
 }
 
-.birthday-field {
-  background-color: #ffffff80;
+::-webkit-calendar-picker-indicator {
+  filter: invert();
 }
 
 input:-webkit-autofill {
