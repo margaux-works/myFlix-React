@@ -41,9 +41,7 @@ The **myFlix Client** is a single-page application (SPA) built with React that s
 ![Search View](https://github.com/margaux-works/myFlix-client/blob/main/src/assets/Search_view.png)
 
 
-## Development Status
 
-🚧 **This project is currently in development.**
 
 ## Project Structure
 
