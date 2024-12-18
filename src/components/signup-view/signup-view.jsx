@@ -78,7 +78,7 @@ export const SignupView = () => {
         />
       </Form.Group>
       <Form.Group controlId="formBirthday" className="mt-2">
-        <Form.Label>Birthday:</Form.Label>
+        <Form.Label className="birth-label">Birthday:</Form.Label>
         <Form.Control
           type="date"
           value={birthday}

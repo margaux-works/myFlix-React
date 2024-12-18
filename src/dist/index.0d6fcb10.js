@@ -42606,71 +42606,131 @@ const LoginView = ({ onLoggedIn })=>{
             alert("Something went wrong");
         });
     };
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form), {
-        onSubmit: handleSubmit,
-        className: "login-form",
+    const loginAsGuest = ()=>{
+        const guestData = {
+            Username: "guest",
+            Password: "guest"
+        };
+        fetch("https://movies-app2024-74d588eb4f3d.herokuapp.com/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(guestData)
+        }).then((response)=>response.json()).then((data)=>{
+            console.log("Demo login response: ", data);
+            if (data.user) {
+                localStorage.setItem("user", JSON.stringify(data.user));
+                localStorage.setItem("token", data.token);
+                onLoggedIn(data.user, data.token);
+            } else alert("Failed to log in as demo user");
+        }).catch((e)=>{
+            alert("Something went wrong");
+        });
+    };
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "login-container",
         children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                className: "login-title",
-                children: "Login"
-            }, void 0, false, {
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form), {
+                onSubmit: handleSubmit,
+                className: "login-form",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                        className: "login-title",
+                        children: "Login"
+                    }, void 0, false, {
+                        fileName: "src/components/login-view/login-view.jsx",
+                        lineNumber: 73,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Group, {
+                        controlId: "formUsername",
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Control, {
+                            type: "text",
+                            value: username,
+                            onChange: (e)=>setUsername(e.target.value),
+                            required: true,
+                            minLength: "6",
+                            placeholder: "Username",
+                            "aria-label": "username"
+                        }, void 0, false, {
+                            fileName: "src/components/login-view/login-view.jsx",
+                            lineNumber: 75,
+                            columnNumber: 11
+                        }, undefined)
+                    }, void 0, false, {
+                        fileName: "src/components/login-view/login-view.jsx",
+                        lineNumber: 74,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Group, {
+                        controlId: "formPassword",
+                        className: "mt-4",
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Control, {
+                            type: "password",
+                            value: password,
+                            onChange: (e)=>setPassword(e.target.value),
+                            required: true,
+                            minLength: "8",
+                            placeholder: "Password",
+                            "aria-label": "Password"
+                        }, void 0, false, {
+                            fileName: "src/components/login-view/login-view.jsx",
+                            lineNumber: 86,
+                            columnNumber: 11
+                        }, undefined)
+                    }, void 0, false, {
+                        fileName: "src/components/login-view/login-view.jsx",
+                        lineNumber: 85,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
+                        variant: "primary",
+                        type: "submit",
+                        className: "mt-4 form-button",
+                        "aria-label": "login",
+                        children: "Login to your account"
+                    }, void 0, false, {
+                        fileName: "src/components/login-view/login-view.jsx",
+                        lineNumber: 97,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                        className: "mt-3",
+                        children: [
+                            "Or try the app in",
+                            " ",
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                style: {
+                                    color: "#fc4747",
+                                    cursor: "pointer",
+                                    textDecoration: "none"
+                                },
+                                onMouseOver: (e)=>e.target.style.textDecoration = "underline",
+                                onMouseOut: (e)=>e.target.style.textDecoration = "none",
+                                onClick: loginAsGuest,
+                                children: "demo"
+                            }, void 0, false, {
+                                fileName: "src/components/login-view/login-view.jsx",
+                                lineNumber: 109,
+                                columnNumber: 11
+                            }, undefined),
+                            " ",
+                            "mode."
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/login-view/login-view.jsx",
+                        lineNumber: 107,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
                 fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 43,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Group, {
-                controlId: "formUsername",
-                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Control, {
-                    type: "text",
-                    value: username,
-                    onChange: (e)=>setUsername(e.target.value),
-                    required: true,
-                    minLength: "6",
-                    placeholder: "Username",
-                    "aria-label": "username"
-                }, void 0, false, {
-                    fileName: "src/components/login-view/login-view.jsx",
-                    lineNumber: 45,
-                    columnNumber: 9
-                }, undefined)
-            }, void 0, false, {
-                fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 44,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Group, {
-                controlId: "formPassword",
-                className: "mt-4",
-                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Control, {
-                    type: "password",
-                    value: password,
-                    onChange: (e)=>setPassword(e.target.value),
-                    required: true,
-                    minLength: "8",
-                    placeholder: "Password",
-                    "aria-label": "Password"
-                }, void 0, false, {
-                    fileName: "src/components/login-view/login-view.jsx",
-                    lineNumber: 56,
-                    columnNumber: 9
-                }, undefined)
-            }, void 0, false, {
-                fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 55,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
-                variant: "primary",
-                type: "submit",
-                className: "mt-4 form-button",
-                "aria-label": "login",
-                children: "Login to your account"
-            }, void 0, false, {
-                fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 67,
+                lineNumber: 72,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                className: "sign-up",
                 children: [
                     "Don't have an account?",
                     " ",
@@ -42680,19 +42740,19 @@ const LoginView = ({ onLoggedIn })=>{
                         children: "Sign Up"
                     }, void 0, false, {
                         fileName: "src/components/login-view/login-view.jsx",
-                        lineNumber: 77,
+                        lineNumber: 127,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 75,
+                lineNumber: 125,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/login-view/login-view.jsx",
-        lineNumber: 42,
+        lineNumber: 71,
         columnNumber: 5
     }, undefined);
 };
@@ -42833,6 +42893,7 @@ const SignupView = ()=>{
                 className: "mt-2",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Label, {
+                        className: "birth-label",
                         children: "Birthday:"
                     }, void 0, false, {
                         fileName: "src/components/signup-view/signup-view.jsx",
